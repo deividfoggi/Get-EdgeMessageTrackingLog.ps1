@@ -1,4 +1,4 @@
-# EdgeTransport_MessageTrackingLog
+# Get-EdgeMessageTrackinglog.ps1
 
 Parameters:
 
