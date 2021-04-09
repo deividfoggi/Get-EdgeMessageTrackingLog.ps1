@@ -1,5 +1,18 @@
 # EdgeTransport_MessageTrackingLog
 
+Parameters:
+
+EdgeTransportServers: Use it to list all Edge transport servers to be considered by the script, comma-separating them all.
+
+Credential: Inform the credential to be used to powershell remote connect to Edge Transport servers. You have to inform only the user name and password. DO NOT USE DOMAIN\USERNAME notation. Because you probably followed recommendations and didn't deployed Edge Transport in domain member servers, you have to have the same local user/password in each Edge Transport Server. The script you take care of the parameter in order to pass the credential using the notation SERVERNAME\USERNAME in username parameter.
+
+UseEMS: Set this parameter as $true if you are running the script from an internal Exchange Server with Mailbox, CAS, HT, etc server roles therefore allowing the script to automatically list all Edge Transport servers from the organization. Obviously, do not use the parameter EdgeTransportServers if you use this one.
+
+Start: Start date to filter the results just like you use in the regular Get-MessageTrackingLog cmdlet.
+
+End: End date to filter the results just like you use in the regular Get-MessageTrackingLog cmdlet.
+
+
 Pre-requisites
 
  - Enable ps remote in each Edge Transport Server
