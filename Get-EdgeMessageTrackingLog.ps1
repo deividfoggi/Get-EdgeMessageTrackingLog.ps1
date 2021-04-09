@@ -5,7 +5,9 @@ param(
     [System.Management.Automation.PSCredential]$Credential,
     [Parameter(Mandatory=$false)]
     [boolean]$UseEMS,
-    [string]$ArgumentList
+    [string]$ArgumentList,
+    [System.DateTime]$Start,
+    [System.DateTime]$End
 )
 
 #If UseEMS = $true then try to get all Edge Transport servers automatically
@@ -28,7 +30,7 @@ foreach($edge in $EdgeTransportServers){
     #If the current edge transport isn't the same name of the server where the command is running, use remote powershell
     if($edge -ne [System.Net.Dns]::GetHostByName(($env:computerName)).HostName) {
         #Invoke the remote powershell command and stores the result
-        $currentTrackingLog = Invoke-Command -ComputerName $edge -Credential $currentCredential -ScriptBlock {Add-PSSnapin -Name Microsoft.Exchange.Management.PowerShell.Snapin;Get-MessageTrackingLog}
+        $currentTrackingLog = Invoke-Command -ComputerName $edge -Credential $currentCredential -ScriptBlock { Param ($Start, $End) Add-PSSnapin -Name Microsoft.Exchange.Management.PowerShell.Snapin;Get-MessageTrackingLog -Start $Start -End $End} -ArgumentList $Start, $End
     } 
     #If the current server is the same of the server where the command is running, do not use remote powershell
     else {
@@ -39,7 +41,7 @@ foreach($edge in $EdgeTransportServers){
         }
 
         #Collect the tracking log
-        $currentTrackingLog = Get-MessageTrackingLog
+        $currentTrackingLog = Get-MessageTrackingLog -Start $Start -End $End
 
     }
     
